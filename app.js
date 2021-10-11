@@ -18,7 +18,7 @@ app.use(express.json({
 
 app.use("/user", userRouter);
 app.use("/categoryItem", categoryItemRouter);
-app.use("/addressRouter", authorization.isAuthorizedUser, addressRouter);
+app.use("/address", authorization.isAuthorizedUser, addressRouter);
 app.use("/admin/category", authorization.isAdmin, adminCategoryRouter);
 app.use("/admin/item", authorization.isAdmin, adminItemRouter);
 app.use(errorHandler);
