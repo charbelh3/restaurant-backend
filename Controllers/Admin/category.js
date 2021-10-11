@@ -1,4 +1,4 @@
-const CategoryService = require('../Services/category');
+const CategoryService = require('../../Services/category');
 const createHttpError = require('http-errors');
 
 

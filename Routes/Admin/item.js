@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
 const { validate } = require('express-validation');
-const itemController = require('../Controllers/item');
+const itemController = require('../../Controllers/Admin/item');
 Joi.objectId = require('joi-objectid')(Joi)
 
 const itemValidation = {

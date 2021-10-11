@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
 const { validate } = require('express-validation');
-const categoryController = require('../Controllers/category');
+const categoryController = require('../../Controllers/Admin/category');
 
 const categoryValidation = {
     body: Joi.object({

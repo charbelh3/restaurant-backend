@@ -29,7 +29,8 @@ module.exports = class CategoryService {
     }
 
     static async UpdateCategory(id, updatedVersion) {
-        return await Category.findByIdAndUpdate(id, { "name": updatedVersion.name }).catch(err => { console.log(err) });
+        //added { new: true } to return the newest version to my controller
+        return await Category.findByIdAndUpdate(id, updatedVersion, { new: true }).catch(err => { console.log(err) });
     }
 
     static async DeleteCategory(id) {
@@ -42,6 +43,5 @@ module.exports = class CategoryService {
         }
 
     }
-
 
 }

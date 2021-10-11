@@ -1,4 +1,4 @@
-const ItemService = require('../Services/item');
+const ItemService = require('../../Services/item');
 const createHttpError = require('http-errors');
 
 module.exports.createItem = async (req, res, next) => {
