@@ -3,7 +3,6 @@ const router = express.Router();
 const Joi = require('joi');
 const { validate } = require('express-validation');
 const categoryController = require('../Controllers/category');
-const authorization = require('../Middlewares/authorization');
 
 const categoryValidation = {
     body: Joi.object({
