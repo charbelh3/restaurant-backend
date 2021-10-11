@@ -12,9 +12,9 @@ const categoryValidation = {
     }).strict()
 }
 
-router.post('/createCategory', validate(categoryValidation), authorization.isAdmin, categoryController.createCategory);
-router.put('/updateCategory', validate(categoryValidation), authorization.isAdmin, categoryController.updateCategory);
-router.delete('/deleteCategory', authorization.isAdmin, categoryController.deleteCategory);
+router.post('/createCategory', validate(categoryValidation), categoryController.createCategory);
+router.put('/updateCategory', validate(categoryValidation), categoryController.updateCategory);
+router.delete('/deleteCategory', categoryController.deleteCategory);
 
 
 module.exports = router;

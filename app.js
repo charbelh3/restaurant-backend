@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const userRouter = require('./Routes/user');
 const categoryRouter = require('./Routes/category');
 
+const authorization = require('./Middlewares/authorization');
+
 const errorHandler = require('./Middlewares/errorHandler');
 const config = require("./Configuration/config")
 
@@ -12,7 +14,7 @@ app.use(express.json({
 }));
 
 app.use("/user", userRouter);
-app.use("/category", categoryRouter);
+app.use("/category", authorization.isAdmin, categoryRouter);
 app.use(errorHandler);
 
 
