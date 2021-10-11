@@ -3,6 +3,7 @@ const router = express.Router();
 const userController = require('../Controllers/user');
 const { validate } = require('express-validation');
 const Joi = require('joi');
+const authorization = require('../Middlewares/authorization');
 
 const SignUpValidation = {
     body: Joi.object({
@@ -22,7 +23,7 @@ const authenticationValidation = {
 }
 
 
-router.post('/signUp', validate(SignUpValidation), userController.signUp);
+router.post('/signUp', validate(SignUpValidation),authorization.isAuthorizedUser, userController.signUp);
 router.post('/authenticate', validate(authenticationValidation), userController.authenticate);
 
 module.exports = router;
