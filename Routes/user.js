@@ -23,7 +23,7 @@ const authenticationValidation = {
 }
 
 
-router.post('/signUp', validate(SignUpValidation),authorization.isAdmin, userController.signUp);
+router.post('/signUp', validate(SignUpValidation), userController.signUp);
 router.post('/authenticate', validate(authenticationValidation), userController.authenticate);
 
 module.exports = router;
