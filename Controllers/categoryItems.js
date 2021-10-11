@@ -1,4 +1,4 @@
 
-module.exports.GetCategoryItems = (req, res, next) => {
-
+module.exports.GetCategoryItems = async (req, res, next) => {
+res.send("asda")
 }

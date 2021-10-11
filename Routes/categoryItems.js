@@ -2,4 +2,6 @@ const express = require("express");
 const router = express.Router();
 const categoryItemsController = require('../Controllers/categoryItems');
 
-router.get('/getCategoryItems', categoryItemsController.GetCategoryItems)
+router.get('/getCategoryItems', categoryItemsController.GetCategoryItems);
+
+module.exports = router;
