@@ -13,8 +13,8 @@ const addressSchema = new Schema({
     },
     location: {
         type: {
-            type: String, // Don't do `{ location: { type: String } }`
-            enum: ['Point'], // 'location.type' must be 'Point'
+            type: String,
+            enum: ['Point'],
             default: "Point"
         },
 
@@ -24,3 +24,24 @@ const addressSchema = new Schema({
 });
 
 const Address = mongoose.model('Address', categorySchema, 'addresses');
+
+module.exports = class AddressService {
+
+    static async GetAllAddresses(userId) {
+
+    }
+
+    static async CreateAddress(userId, address) {
+
+    }
+
+
+    static async UpdateAddress(addressId, updatedVersion) {
+
+    }
+
+    static async DeleteAddress(addressId) {
+
+    }
+
+}

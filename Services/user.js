@@ -55,7 +55,9 @@ module.exports = class UserService {
             return false;
         }
 
-        if (await bcrypt.compare(user.password, userFromDb.password) == false) { return false }
+
+        if (await bcrypt.compare(user.password, userFromDb.password) == false) return false
+
 
         else {
             let jwtToken = await this.issueJTWToken(userFromDb);
@@ -84,7 +86,7 @@ module.exports = class UserService {
     }
 
     static async isEmailValid(email) {
-        const existingUser = await User.findOne({ email: email });
+        const existingUser = await User.findOne({ email: email }).select("+password");
 
         return existingUser;
     }
