@@ -76,6 +76,7 @@ module.exports = class UserService {
 
         return token;
     }
-
-
 }
+
+//adding an index on the email field.
+userSchema.index({ email: 1 });
