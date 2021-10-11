@@ -34,7 +34,7 @@ module.exports.isAdmin = (req, res, next) => {
     let decodedToken = verifyAndGetToken(token);
 
     if (decodedToken.role != 'admin') {
-        throw createError(403, 'You do not have enough permissions for that action.');
+        throw createHttpError(403, 'You do not have enough permissions for that action.');
     }
     //Saving the sender document ID
     req.userId = decodedToken.userId;
@@ -44,9 +44,7 @@ module.exports.isAdmin = (req, res, next) => {
 function checkAuth(req) {
     if (!req.get('Authorization')) {
         throw (createHttpError(401, 'Missing or Invalid Token.'));
-
     }
-
 }
 
 function verifyAndGetToken(token) {
