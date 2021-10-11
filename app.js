@@ -2,8 +2,9 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
 const userRouter = require('./Routes/user');
-const errorHandler = require('./Middlewares/errorHandler');
+const categoryRouter = require('./Routes/category');
 
+const errorHandler = require('./Middlewares/errorHandler');
 const config = require("./Configuration/config")
 
 app.use(express.json({
@@ -11,6 +12,7 @@ app.use(express.json({
 }));
 
 app.use("/user", userRouter);
+app.use("/category", categoryRouter);
 app.use(errorHandler);
 
 
