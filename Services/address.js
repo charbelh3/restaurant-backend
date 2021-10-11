@@ -18,7 +18,12 @@ const addressSchema = new Schema({
             default: "Point"
         },
 
-        coordinates: { type: [Number], index: '2dsphere', required: true }
+        coordinates: { type: [Number], required: true },
+       
+    },
+    userId: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
 
 });
@@ -32,6 +37,13 @@ module.exports = class AddressService {
     }
 
     static async CreateAddress(userId, address) {
+        let addressToInsert = new Address();
+        addressToInsert.label = address.label;
+        addressToInsert.completeAddress = address.completeAddress;
+        addressToInsert.location.coordinates = address.coordinates;
+        addressToInsert.userId = userId;
+
+        return await addressToInsert.save();
 
     }
 
@@ -45,3 +57,6 @@ module.exports = class AddressService {
     }
 
 }
+
+
+addressSchema.index({ location: '2dsphere' });
