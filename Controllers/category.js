@@ -25,5 +25,10 @@ module.exports.updateCategory = async (req, res, next) => {
 }
 
 module.exports.deleteCategory = async (req, res, next) => {
-    res.send("Delete category works");
+    const id = req.query.id;
+    const category = await CategoryService.DeleteCategory(id);
+
+    if (!category) return next(createHttpError(400, "Category does not exist"));
+
+    res.send(category);
 }
