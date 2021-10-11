@@ -38,6 +38,7 @@ module.exports = class UserService {
             newUser.fullName = user.fullName;
             newUser.email = user.email;
             newUser.password = await bcrypt.hash(user.password, 12);
+            newUser.role = user.role || "User";
             newUser.save();
             return true;
         }

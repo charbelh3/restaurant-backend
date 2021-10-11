@@ -10,6 +10,7 @@ const SignUpValidation = {
         email: Joi.string().min(3).required().email(),
         fullName: Joi.string().required(),
         password: Joi.string().min(3).required(),
+        role:Joi.string()
 
     }).strict()
 }

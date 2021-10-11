@@ -3,7 +3,7 @@ const UserService = require("../Services/user");
 
 module.exports.signUp = async (req, res, next) => {
     const userInfo = req.body;
-
+    
     const createdUser = await UserService.SignUp(userInfo);
 
     if (!createdUser) {
