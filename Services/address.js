@@ -23,7 +23,7 @@ const addressSchema = new Schema({
 
 });
 
-const Address = mongoose.model('Address', categorySchema, 'addresses');
+const Address = mongoose.model('Address', addressSchema, 'addresses');
 
 module.exports = class AddressService {
 
