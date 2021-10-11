@@ -30,6 +30,8 @@ const Item = mongoose.model('Item', itemSchema, 'items');
 module.exports = class ItemService {
 
     static async CreateItem(item) {
+        let itemToInsert = new Item(item);
+        return await itemToInsert.save();
 
     }
 
