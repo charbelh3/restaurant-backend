@@ -42,7 +42,7 @@ module.exports = class ItemService {
     }
 
     static async DeleteItem(id) {
-
+        return await Item.findByIdAndDelete(id).catch(err => { console.log(err) });
     }
 
 }

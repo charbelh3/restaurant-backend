@@ -19,5 +19,11 @@ module.exports.updateItem = async (req, res, next) => {
 }
 
 module.exports.deleteItem = async (req, res, next) => {
-    res.send("create item works");
+    let isSuccess = await ItemService.DeleteItem(req.query.id);
+
+    if (isSuccess) res.send(isSuccess);
+
+    else return next(createHttpError(400, "Item not found"));
+
+
 }
