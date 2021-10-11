@@ -49,7 +49,7 @@ module.exports = class UserService {
             return false;
         }
 
-        if (bcrypt.compare(user.password, userFromDb.password) == false) { return false }
+        if (await bcrypt.compare(user.password, userFromDb.password) == false) { return false }
 
         else {
             let jwtToken = await this.issueJTWToken(userFromDb);

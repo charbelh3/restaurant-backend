@@ -1,3 +1,4 @@
+const createHttpError = require("http-errors");
 const UserService = require("../Services/user");
 
 
@@ -9,10 +10,10 @@ module.exports.signUp = async (req, res, next) => {
     const createdUser = await UserService.SignUp(userInfo);
 
     if (!createdUser) {
-        res.send("Error");
+        return next(createHttpError(400, "Email already in use."));
     }
 
-    res.send({ "username": userInfo.email, name: userInfo.fullName });
+    else res.send({ "username": userInfo.email, name: userInfo.fullName });
 }
 
 module.exports.authenticate = async (req, res, next) => {
@@ -21,7 +22,7 @@ module.exports.authenticate = async (req, res, next) => {
 
     let isSuccess = await UserService.Authenticate(userCredentials);
 
-    if (!isSuccess) res.send("Incorrect password or email");
+    if (!isSuccess) return next(createHttpError(400, "Incorrect email or password"));
 
     else {
         let jwtToken = isSuccess;
