@@ -17,6 +17,10 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
+    },
+    role: {
+        type: String,
+        default: "User"
     }
 
 });
@@ -64,7 +68,7 @@ module.exports = class UserService {
     }
 
     static async issueJTWToken(user) {
-        const token = await jwt.sign({ email: user.email, userId: user._id.toString() },
+        const token = await jwt.sign({ email: user.email, userId: user._id.toString(), role: user.role },
             config.appSecret,
             { expiresIn: '2h' });
 
