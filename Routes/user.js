@@ -24,8 +24,18 @@ const authenticationValidation = {
 }
 
 
+const updatedProfileValidation = {
+    body: Joi.object({
+        fullName: Joi.string().min(3),
+        password: Joi.string().min(3),
+    }).strict()
+}
+
+
+
 router.post('/signUp', validate(SignUpValidation), userController.signUp);
 router.post('/authenticate', validate(authenticationValidation), userController.authenticate);
 router.get('/viewProfile', authorization.isAuthorizedUser, userController.viewProfile)
+router.put('/updateProfile', validate(updatedProfileValidation), authorization.isAuthorizedUser, userController.updateProfile)
 
 module.exports = router;

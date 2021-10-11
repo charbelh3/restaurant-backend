@@ -67,6 +67,22 @@ module.exports = class UserService {
         return await User.findById(userId);
     }
 
+
+    static async UpdateProfile(userId, updatedVersion) {
+
+        //If password has been changed, hash the new password before updating the document
+        if (updatedVersion.password) {
+            updatedVersion.password = await bcrypt.hash(updatedVersion.password, 12);
+            return await User.findByIdAndUpdate(userId, updatedVersion, { new: true });
+        }
+
+        else {
+            return await User.findByIdAndUpdate(userId, updatedVersion, { new: true });
+        }
+
+
+    }
+
     static async isEmailValid(email) {
         const existingUser = await User.findOne({ email: email });
 

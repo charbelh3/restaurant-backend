@@ -34,5 +34,15 @@ module.exports.viewProfile = async (req, res, next) => {
 
     if (userProfile) res.send(userProfile);
 
-    else return next(createHttpError(400, "Bad request"))
+    else return next(createHttpError(500, "Server error"))
+}
+
+module.exports.updateProfile = async (req, res, next) => {
+    const userId = req.userId;
+    const updatedUser = req.body;
+    const editedProfile = await UserService.UpdateProfile(userId, updatedUser);
+
+    if (editedProfile) res.send(editedProfile);
+
+    else return next(createHttpError(500, "Server error"))
 }
