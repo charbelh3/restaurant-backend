@@ -1,4 +1,4 @@
-// const CategoryService = require('../Services/category');
+const itemService = require('../Services/item');
 const createHttpError = require('http-errors');
 
 module.exports.createItem = (req, res, next) => {
