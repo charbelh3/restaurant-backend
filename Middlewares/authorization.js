@@ -33,7 +33,7 @@ module.exports.isAdmin = (req, res, next) => {
 
     let decodedToken = verifyAndGetToken(token);
 
-    if (decodedToken.role != 'admin') {
+    if (decodedToken.role != 'Admin') {
         throw createHttpError(403, 'You do not have enough permissions for that action.');
     }
     //Saving the sender document ID
