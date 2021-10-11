@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
+const ItemService = require('./item');
 
 
 const categorySchema = new Schema({
@@ -33,7 +33,14 @@ module.exports = class CategoryService {
     }
 
     static async DeleteCategory(id) {
-        return await Category.findByIdAndDelete(id).catch(err => { console.log(err) });;
+
+        //Deleting all items that belong to the category before deleting the category itself
+        let isSuccess = await ItemService.DeleteAllCategoryItems(id);
+
+        if (isSuccess) {
+            return await Category.findByIdAndDelete(id).catch(err => { console.log(err) });;
+        }
+
     }
 
 

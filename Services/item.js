@@ -45,4 +45,8 @@ module.exports = class ItemService {
         return await Item.findByIdAndDelete(id).catch(err => { console.log(err) });
     }
 
+    static async DeleteAllCategoryItems(categoryId) {
+        return await Item.deleteMany({ categoryId: categoryId });
+    }
+
 }
