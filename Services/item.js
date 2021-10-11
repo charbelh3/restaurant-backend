@@ -48,5 +48,6 @@ module.exports = class ItemService {
     static async DeleteAllCategoryItems(categoryId) {
         return await Item.deleteMany({ categoryId: categoryId });
     }
-
 }
+//adding an index on the name field.
+itemSchema.index({ name: 1 });
