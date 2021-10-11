@@ -41,7 +41,13 @@ module.exports = class CategoryService {
         if (isSuccess) {
             return await Category.findByIdAndDelete(id).catch(err => { console.log(err) });;
         }
+    }
 
+    static async GetCategoryItems(categoryName, pageNumber)
+    {
+        return await Post.aggregate().lookup({ from: 'users', localField: 'userId', foreignField: '_id', as: 'PostedBy' })
+        .project({ "PostedBy.password": 0 })
+        .skip((pageNumber - 1) * ELEMENTS_PER_PAGE).limit(ELEMENTS_PER_PAGE);
     }
 
 }

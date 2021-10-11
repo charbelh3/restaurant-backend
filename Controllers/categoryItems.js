@@ -1,4 +1,29 @@
 
+const createHttpError = require('http-errors');
+const CategoryService = require('../Services/category');
+const ItemService = require('../Services/item');
+
 module.exports.GetCategoryItems = async (req, res, next) => {
-res.send("asda")
+
+    const page = req.query.page || 1;
+    const nameSearch = req.query.search;
+    const categoryFilter = req.query.category;
+
+    if (nameSearch) {
+        console.log(nameSearch);
+    }
+
+    else if (categoryFilter) {
+        let items = await ItemService.GetCategoryItemsByCategory(categoryFilter, page)
+
+        if (items)
+            res.send({ "categoryName": categoryFilter, "items": items });
+    }
+
+    else {
+        return next(createHttpError(400, "Missing filters"));
+    }
+
+
+    res.send("asda")
 }

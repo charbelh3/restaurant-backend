@@ -27,6 +27,10 @@ const itemSchema = new Schema({
 
 const Item = mongoose.model('Item', itemSchema, 'items');
 
+
+
+const ELEMENTS_PER_PAGE = 3;
+
 module.exports = class ItemService {
 
     static async CreateItem(item) {
@@ -47,6 +51,14 @@ module.exports = class ItemService {
 
     static async DeleteAllCategoryItems(categoryId) {
         return await Item.deleteMany({ categoryId: categoryId });
+    }
+
+    static async GetCategoryItemsByCategory(categoryName, pageNumber) {
+
+        return await Item.aggregate().lookup({ from: 'categories', localField: 'categoryId', foreignField: '_id', as: 'Category' })
+            .match({ "Category.name": categoryName }).project({ "Category": 0 })
+            .skip((pageNumber - 1) * ELEMENTS_PER_PAGE).limit(ELEMENTS_PER_PAGE);
+
     }
 }
 //adding an index on the name field.
