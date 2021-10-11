@@ -61,8 +61,13 @@ module.exports = class ItemService {
         return await Item.aggregate().lookup({ from: 'categories', localField: 'categoryId', foreignField: '_id', as: 'Category' })
             .match({ "Category.name": categoryName }).project({ "Category": 0 })
             .skip((pageNumber - 1) * ELEMENTS_PER_PAGE).limit(ELEMENTS_PER_PAGE);
+    }
 
+    static async GetItemsByNameSearch(search, pageNumber)
+    {
+        return await Item.find(( { $text: { $search: search } } ))
+        .skip((pageNumber - 1) * ELEMENTS_PER_PAGE).limit(ELEMENTS_PER_PAGE);
     }
 }
 //adding an index on the name field.
-itemSchema.index({ name: 1 });
+itemSchema.index( { "name": "text" } )

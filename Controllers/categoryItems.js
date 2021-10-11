@@ -10,7 +10,10 @@ module.exports.GetCategoryItems = async (req, res, next) => {
     const categoryFilter = req.query.category;
 
     if (nameSearch) {
-        console.log(nameSearch);
+        let items = await ItemService.GetItemsByNameSearch(nameSearch, page)
+
+        if (items)
+            res.send(items);
     }
 
     else if (categoryFilter) {
