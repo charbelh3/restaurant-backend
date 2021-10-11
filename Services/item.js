@@ -53,6 +53,9 @@ module.exports = class ItemService {
         return await Item.deleteMany({ categoryId: categoryId });
     }
 
+    /*Using lookup to join the 2 collections, matching based on the category name and removing the category 
+    embedded doc from the result, efore adding pagination*/
+
     static async GetCategoryItemsByCategory(categoryName, pageNumber) {
 
         return await Item.aggregate().lookup({ from: 'categories', localField: 'categoryId', foreignField: '_id', as: 'Category' })
