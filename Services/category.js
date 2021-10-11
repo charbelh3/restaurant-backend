@@ -30,7 +30,7 @@ module.exports = class CategoryService {
     }
 
     static async UpdateCategory(id, updatedVersion) {
-
+        return await Category.findByIdAndUpdate(id, { "name": updatedVersion.name }).catch((err) => { console.log(err) });
     }
 
     static async DeleteCategory(id) {

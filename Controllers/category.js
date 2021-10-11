@@ -1,4 +1,5 @@
 const CategoryService = require('../Services/category');
+const createHttpError = require('http-errors');
 
 
 module.exports.createCategory = async (req, res, next) => {
@@ -13,7 +14,14 @@ module.exports.createCategory = async (req, res, next) => {
 }
 
 module.exports.updateCategory = async (req, res, next) => {
-    res.send("Update category works");
+    const id = req.query.id;
+    const category = req.body;
+    const updatedCategory = await CategoryService.UpdateCategory(id, category);
+
+    if (!updatedCategory) return next(createHttpError(400, "Product does not exist"));
+
+    else res.send(updatedCategory)
+
 }
 
 module.exports.deleteCategory = async (req, res, next) => {
