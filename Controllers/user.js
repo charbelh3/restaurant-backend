@@ -3,7 +3,7 @@ const UserService = require("../Services/user");
 
 module.exports.signUp = async (req, res, next) => {
     const userInfo = req.body;
-    
+
     const createdUser = await UserService.SignUp(userInfo);
 
     if (!createdUser) {
@@ -25,4 +25,14 @@ module.exports.authenticate = async (req, res, next) => {
         let jwtToken = isSuccess;
         res.send({ "accessToken": jwtToken });
     }
+}
+
+module.exports.viewProfile = async (req, res, next) => {
+    const userId = req.userId;
+
+    const userProfile = await UserService.ViewProfile(userId);
+
+    if (userProfile) res.send(userProfile);
+
+    else return next(createHttpError(400, "Bad request"))
 }

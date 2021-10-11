@@ -17,6 +17,7 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true,
+        select: false
     },
     role: {
         type: String,
@@ -60,6 +61,10 @@ module.exports = class UserService {
             let jwtToken = await this.issueJTWToken(userFromDb);
             return jwtToken;
         }
+    }
+
+    static async ViewProfile(userId) {
+        return await User.findById(userId);
     }
 
     static async isEmailValid(email) {

@@ -3,13 +3,14 @@ const router = express.Router();
 const userController = require('../Controllers/user');
 const { validate } = require('express-validation');
 const Joi = require('joi');
+const authorization = require('../Middlewares/authorization');
 
 const SignUpValidation = {
     body: Joi.object({
         email: Joi.string().min(3).required().email(),
         fullName: Joi.string().required(),
         password: Joi.string().min(3).required(),
-        role:Joi.string()
+        role: Joi.string()
 
     }).strict()
 }
@@ -25,5 +26,6 @@ const authenticationValidation = {
 
 router.post('/signUp', validate(SignUpValidation), userController.signUp);
 router.post('/authenticate', validate(authenticationValidation), userController.authenticate);
+router.get('/viewProfile', authorization.isAuthorizedUser, userController.viewProfile)
 
 module.exports = router;
