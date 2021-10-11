@@ -5,6 +5,7 @@ const userRouter = require('./Routes/user');
 const adminCategoryRouter = require('./Routes/Admin/category');
 const adminItemRouter = require('./Routes/Admin/item');
 const categoryItemRouter = require('./Routes/categoryItems');
+const addressRouter = require('./Routes/address');
 
 const authorization = require('./Middlewares/authorization');
 
@@ -17,6 +18,7 @@ app.use(express.json({
 
 app.use("/user", userRouter);
 app.use("/categoryItem", categoryItemRouter);
+app.use("/addressRouter", authorization.isAuthorizedUser, addressRouter);
 app.use("/admin/category", authorization.isAdmin, adminCategoryRouter);
 app.use("/admin/item", authorization.isAdmin, adminItemRouter);
 app.use(errorHandler);

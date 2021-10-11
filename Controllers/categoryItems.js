@@ -1,6 +1,5 @@
 
 const createHttpError = require('http-errors');
-const CategoryService = require('../Services/category');
 const ItemService = require('../Services/item');
 
 module.exports.GetCategoryItems = async (req, res, next) => {
