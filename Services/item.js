@@ -35,8 +35,10 @@ module.exports = class ItemService {
 
     }
 
-    static async UpdateItem(id, newVersion) {
+    static async UpdateItem(id, updatedVersion) {
 
+        //added { new: true } to return the newest version to my controller
+        return await Item.findByIdAndUpdate(id, updatedVersion, { new: true }).catch(err => { console.log(err) });
     }
 
     static async DeleteItem(id) {

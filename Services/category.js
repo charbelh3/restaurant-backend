@@ -22,8 +22,7 @@ module.exports = class CategoryService {
 
     static async CreateCategory(category) {
 
-        let categoryToInsert = new Category();
-        categoryToInsert.name = category.name;
+        let categoryToInsert = new Category(category);
 
         let savedCategory = await categoryToInsert.save();
         return savedCategory;
