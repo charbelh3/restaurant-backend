@@ -65,9 +65,18 @@ module.exports = class AddressService {
 
     }
 
-    static async DeleteAddress(addressId) {
+    static async DeleteAddress(addressId, userId) {
 
+        //check if the user owns that address before deleting it
+        let isSuccess = await Address.findOne({ _id: addressId, userId: userId });
+        if (isSuccess) {
+            return await Address.findByIdAndDelete(addressId);
+        }
+
+        else return false;
     }
+
+
 
 }
 

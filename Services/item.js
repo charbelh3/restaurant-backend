@@ -63,11 +63,10 @@ module.exports = class ItemService {
             .skip((pageNumber - 1) * ELEMENTS_PER_PAGE).limit(ELEMENTS_PER_PAGE);
     }
 
-    static async GetItemsByNameSearch(search, pageNumber)
-    {
-        return await Item.find(( { $text: { $search: search } } ))
-        .skip((pageNumber - 1) * ELEMENTS_PER_PAGE).limit(ELEMENTS_PER_PAGE);
+    static async GetItemsByNameSearch(search, pageNumber) {
+        return await Item.find(({ $text: { $search: search } }))
+            .skip((pageNumber - 1) * ELEMENTS_PER_PAGE).limit(ELEMENTS_PER_PAGE);
     }
 }
 //adding an index on the name field.
-itemSchema.index( { "name": "text" } )
+itemSchema.index({ "name": "text" })

@@ -32,5 +32,9 @@ module.exports.updateAddress = async (req, res, next) => {
 }
 
 module.exports.deleteAddress = async (req, res, next) => {
+    const deletedAddress = await AddressService.DeleteAddress(req.query.id, req.userId);
 
+    if (deletedAddress) { res.send(deletedAddress) }
+
+    else return next(createHttpError(400, "Address does not exist"));
 }
