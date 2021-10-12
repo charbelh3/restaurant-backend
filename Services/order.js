@@ -135,7 +135,7 @@ module.exports = class OrderService {
     // the following 3 functions are used by the admin controller
 
     static async AdminRejectOrder(orderId) {
-        return await Order.findOneAndDelete({ _id: orderId, status: 'Pending' });
+        return await Order.findByIdAndDelete({ _id: orderId, status: 'Pending' });
     }
 
     static async AdminAcceptOrder(orderId) {
@@ -145,7 +145,7 @@ module.exports = class OrderService {
 
     static async GetAllPendingOrders(pageNumber) {
         return await Order.aggregate().match({ status: 'Pending' })
-            .lookup({ from: 'items', localField: 'items.itemId', foreignField: '_id', as: 'items' })
+            .lookup({ from: 'items', localField: 'items.itemId', foreignField: '_id', as: 'Items' })
             .lookup({ from: 'users', localField: 'userId', foreignField: '_id', as: 'user' }).unwind('user')
             .lookup({ from: 'addresses', localField: 'addressId', foreignField: '_id', as: 'address' }).unwind('address')
             .lookup({ from: 'branches', localField: 'branchId', foreignField: '_id', as: 'branch' }).unwind('branch')

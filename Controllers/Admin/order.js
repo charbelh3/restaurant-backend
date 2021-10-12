@@ -8,3 +8,16 @@ module.exports.getAllPendingOrders = async (req, res, next) => {
 
     if (pendingOrders) res.send(pendingOrders);
 }
+
+
+module.exports.rejectPendingOrder = async (req, res, next) => {
+
+    let orderToDelete = await OrderService.AdminRejectOrder(req.query.id);
+
+    if (orderToDelete) {
+        res.send(orderToDelete);
+    }
+
+
+    else return next(createHttpError(500, "Server error"));
+}

@@ -4,6 +4,7 @@ const adminOrderController = require('../../Controllers/Admin/order');
 
 
 router.get("/getAllPendingOrders", adminOrderController.getAllPendingOrders);
+router.delete("/rejectPendingOrder", adminOrderController.rejectPendingOrder);
 
 module.exports = router;
 

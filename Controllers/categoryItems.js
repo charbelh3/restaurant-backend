@@ -26,6 +26,4 @@ module.exports.GetCategoryItems = async (req, res, next) => {
         return next(createHttpError(400, "Missing filters"));
     }
 
-
-    res.send("asda")
 }
