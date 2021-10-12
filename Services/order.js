@@ -131,6 +131,9 @@ module.exports = class OrderService {
         else return false;
     }
 
+
+    // the following 3 functions are used by the admin controller
+
     static async AdminRejectOrder(orderId) {
         return await Order.findOneAndDelete({ _id: orderId, status: 'Pending' });
     }
@@ -139,8 +142,19 @@ module.exports = class OrderService {
         return await Order.findOneAndUpdate({ _id: orderId, status: 'Pending' }, { status: 'Accepted' });
     }
 
+
     static async GetAllPendingOrders(pageNumber) {
-        return await Order.find({ status: 'Pending' }).skip((pageNumber - 1) * ELEMENTS_PER_PAGE).limit(ELEMENTS_PER_PAGE);
+        return await Order.aggregate().match({ status: 'Pending' })
+            .lookup({ from: 'items', localField: 'items.itemId', foreignField: '_id', as: 'items' })
+            .lookup({ from: 'users', localField: 'userId', foreignField: '_id', as: 'user' }).unwind('user')
+            .lookup({ from: 'addresses', localField: 'addressId', foreignField: '_id', as: 'address' }).unwind('address')
+            .lookup({ from: 'branches', localField: 'branchId', foreignField: '_id', as: 'branch' }).unwind('branch')
+            .project({
+                addressId: 0, branchId: 0, userId: 0, 'user.role': 0, 'user.password': 0, 'address.location': 0,
+                'address.label': 0, 'address.userId': 0, 'branch.location': 0
+            })
+            .skip((pageNumber - 1) * ELEMENTS_PER_PAGE)
+            .limit(ELEMENTS_PER_PAGE);
     }
 
 }
