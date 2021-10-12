@@ -67,6 +67,12 @@ module.exports = class ItemService {
         return await Item.find(({ $text: { $search: search } }))
             .skip((pageNumber - 1) * ELEMENTS_PER_PAGE).limit(ELEMENTS_PER_PAGE);
     }
+
+    static async GetItemPrice(itemId) {
+        let item = await Item.findById(itemId);
+
+        return item.price;
+    }
 }
 //adding an index on the name field.
 itemSchema.index({ "name": "text" })

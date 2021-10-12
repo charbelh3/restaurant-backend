@@ -12,6 +12,7 @@ const orderRouter = require('./Routes/order');
 const adminCategoryRouter = require('./Routes/Admin/category');
 const adminItemRouter = require('./Routes/Admin/item');
 const adminbranchRouter = require('./Routes/Admin/branch');
+const adminOrderRouter = require('./Routes/Admin/order');
 
 const authorization = require('./Middlewares/authorization');
 
@@ -31,6 +32,7 @@ app.use("/order", authorization.isAuthorizedUser, orderRouter);
 app.use("/admin/category", authorization.isAdmin, adminCategoryRouter);
 app.use("/admin/item", authorization.isAdmin, adminItemRouter);
 app.use("/admin/branch", authorization.isAdmin, adminbranchRouter);
+app.use("/admin/order", authorization.isAdmin, adminOrderRouter);
 
 app.use(errorHandler);
 

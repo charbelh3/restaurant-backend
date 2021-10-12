@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const BranchService = require('../Services/branch');
 const AddressService = require('../Services/address');
+const ItemService = require('../Services/item');
 
 
 const orderSchema = new Schema({
@@ -31,7 +32,8 @@ const orderSchema = new Schema({
         }
     ],
     totalPrice: {
-        type: Number
+        type: Number,
+        required: false
     },
     branchId: {
         type: Schema.Types.ObjectId,
@@ -45,6 +47,8 @@ const orderSchema = new Schema({
 });
 
 const Order = mongoose.model('Order', orderSchema, 'orders');
+
+const ELEMENTS_PER_PAGE = 3;
 
 module.exports = class OrderService {
 
@@ -62,15 +66,38 @@ module.exports = class OrderService {
 
             if (bestBranch) {
                 let orderToInsert = new Order()
+
                 orderToInsert.userId = userId;
                 orderToInsert.items = order.items;
                 orderToInsert.addressId = order.addressId;
                 orderToInsert.branchId = bestBranch._id;
+                // orderToInsert.totalPrice = await this.GetTotalPrice(order.items);
+
                 return await orderToInsert.save();
+
             }
 
             else return false;
         }
+    }
+
+    static async GetTotalPrice(items) {
+
+        let totalPrice = 0;
+        let counter = 0;
+        items.forEach(async element => {
+            counter++;
+            let itemPrice = await ItemService.GetItemPrice(element.itemId);
+
+            if (itemPrice)
+                totalPrice += itemPrice * element.quantity;
+
+            if (counter == items.length) {
+                console.log(totalPrice);
+                return totalPrice;
+            }
+        })
+
     }
 
     static async FindBestBranchForUserOrder(coordinates) {
@@ -112,6 +139,8 @@ module.exports = class OrderService {
         return await Order.findOneAndUpdate({ _id: orderId, status: 'Pending' }, { status: 'Accepted' });
     }
 
-
+    static async GetAllPendingOrders(pageNumber) {
+        return await Order.find({ status: 'Pending' }).skip((pageNumber - 1) * ELEMENTS_PER_PAGE).limit(ELEMENTS_PER_PAGE);
+    }
 
 }
