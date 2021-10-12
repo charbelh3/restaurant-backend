@@ -47,7 +47,6 @@ module.exports = class BranchService {
         return await Branch.findByIdAndDelete(id);
     }
 
-
 }
 
 branchSchema.index({ location: '2dsphere' });
