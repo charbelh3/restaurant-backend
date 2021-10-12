@@ -7,6 +7,7 @@ Joi.objectId = require('joi-objectid')(Joi)
 
 const OrderValidation = {
     body: Joi.object({
+        addressId: Joi.objectId().required(),
         items: Joi.array().items(
             {
                 itemId: Joi.objectId(),

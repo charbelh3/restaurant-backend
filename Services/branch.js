@@ -47,6 +47,24 @@ module.exports = class BranchService {
         return await Branch.findByIdAndDelete(id);
     }
 
+    static async FindBestBranch(coordinates) {
+        let branches = await Branch.find(
+            {
+                location: {
+                    $near: {
+                        $maxDistance: 5000,
+                        $geometry: {
+                            type: "Point",
+                            coordinates: coordinates
+                        }
+                    }
+                }
+            }
+        );
+
+        return branches;
+    }
+
 }
 
 branchSchema.index({ location: '2dsphere' });
