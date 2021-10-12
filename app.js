@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
-
+const multer = require('multer');
+const path = require('path');
 
 const userRouter = require('./Routes/user');
 const categoryItemRouter = require('./Routes/categoryItems');
@@ -19,9 +20,37 @@ const authorization = require('./Middlewares/authorization');
 const errorHandler = require('./Middlewares/errorHandler');
 const config = require("./Configuration/config")
 
+
+
+const fileStorage = multer.diskStorage({
+    destination: (req, file, callback) => {
+        callback(null, 'images');
+    },
+    filename: (req, file, callback) => {
+        callback(null, new Date().toISOString() + file.originalname);
+    }
+});
+
+const fileFilter = (req, file, callback) => {
+    if (file.mimetype === 'image/png' ||
+        file.mimetype === 'image/png' ||
+        file.mimetype === 'image/png') {
+        callback(null, true);
+    } else {
+        callback(null, false);
+    }
+}
+
+
+
 app.use(express.json({
     extended: true
 }));
+
+app.use(
+    multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));
+
+app.use('/image', express.static(path.join(__dirname, 'images')));
 
 //Routes
 app.use("/user", userRouter);

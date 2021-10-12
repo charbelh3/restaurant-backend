@@ -18,7 +18,7 @@ const itemValidation = {
 router.post('/createItem', validate(itemValidation), itemController.createItem);
 router.put('/updateItem', validate(itemValidation), itemController.updateItem);
 router.delete('/deleteItem', itemController.deleteItem);
-router.post('/uploadItemPicture');
+router.post('/uploadItemPicture', itemController.uploadItemImage);
 
 
 module.exports = router;
