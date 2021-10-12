@@ -89,7 +89,19 @@ module.exports = class OrderService {
     }
 
     static async UpdateOrder(orderId, userId, updatedVersion) {
+        let addressCoordinates = await this.GetAddressCoordinates(updatedVersion.addressId);
 
+
+        if (addressCoordinates) {
+            const bestBranch = await this.FindBestBranchForUserOrder(addressCoordinates);
+
+            return await Order.findOneAndUpdate({ _id: orderId, userId: userId }, {
+                items: updatedVersion.items, addressId: updatedVersion.addressId,
+                branchId: bestBranch._id
+            }, { new: true });
+        }
+
+        else return false;
     }
 
     static async AdminRejectOrder(orderId) {

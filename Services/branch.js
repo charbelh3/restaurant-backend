@@ -51,6 +51,9 @@ module.exports = class BranchService {
     static async FindBestBranch(addressCoordinates) {
 
         console.log(addressCoordinates);
+
+        // $near with $maxDistance did not work for some cases, so I used $within instead
+
         // let branches = await Branch.find(
         //     {
         //         location: {

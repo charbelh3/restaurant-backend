@@ -17,7 +17,11 @@ module.exports.createOrder = async (req, res, next) => {
 }
 
 module.exports.updateOrder = async (req, res, next) => {
+    let orderToUpdate = await OrderService.UpdateOrder(req.query.id, req.userId, req.body);
 
+    if (orderToUpdate) res.send(orderToUpdate);
+
+    else return next(createHttpError(400, 'Cannot create order'));
 }
 
 module.exports.cancelOrder = async (req, res, next) => {
