@@ -10,23 +10,20 @@ module.exports.getAllPendingOrders = async (req, res, next) => {
 }
 
 
-module.exports.rejectPendingOrder = async (req, res, next) => {
+module.exports.rejectOrAcceptOrder = async (req, res, next) => {
 
-    let orderToDelete = await OrderService.AdminRejectOrder(req.query.id);
+    if (req.body.isAccepted == 1) {
+        let orderToAccept = await OrderService.AdminAcceptOrder(req.query.id);
 
-    if (orderToDelete) {
-        res.send(orderToDelete);
+        if (orderToAccept) res.send(orderToAccept);
+        else return next(createHttpError(400, "Order not found"));
     }
 
+    else if (req.body.isAccepted == 0) {
+        let orderToReject = await OrderService.AdminRejectOrder(req.query.id);
 
-    else return next(createHttpError(400, "Order not found"));
-}
+        if (orderToReject) res.send(orderToReject)
+        else return next(createHttpError(400, "Order not found"));
+    }
 
-module.exports.acceptPendingOrder = async (req, res, next) => {
-
-    let orderToAccept = await OrderService.AdminAcceptOrder(req.query.id);
-
-    if (orderToAccept) res.send(orderToAccept);
-
-    else return next(createHttpError(500, "Order not found"));
 }

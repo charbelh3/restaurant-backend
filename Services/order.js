@@ -71,7 +71,7 @@ module.exports = class OrderService {
                 orderToInsert.items = order.items;
                 orderToInsert.addressId = order.addressId;
                 orderToInsert.branchId = bestBranch._id;
-                // orderToInsert.totalPrice = await this.GetTotalPrice(order.items);
+                orderToInsert.totalPrice = await this.GetTotalPrice(order.items);
 
                 return await orderToInsert.save();
 
@@ -134,8 +134,12 @@ module.exports = class OrderService {
 
     // the following 3 functions are used by the admin controller
 
+    // static async AdminRejectOrder(orderId) {
+    //     return await Order.findByIdAndDelete({ _id: orderId, status: 'Pending' });
+    // }
+
     static async AdminRejectOrder(orderId) {
-        return await Order.findByIdAndDelete({ _id: orderId, status: 'Pending' });
+        return await Order.findOneAndUpdate({ _id: orderId, status: 'Pending' }, { status: 'Rejected' }, { new: true });
     }
 
     static async AdminAcceptOrder(orderId) {
