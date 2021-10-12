@@ -7,13 +7,13 @@ Joi.objectId = require('joi-objectid')(Joi)
 
 const OrderValidation = {
     body: Joi.object({
-        userId: Joi.objectId().required(),
         items: Joi.array().items(
-            { itemId: Joi.objectId().required() },
-            { quantity: Joi.number().required() }
-        ),
-        branchId: Joi.objectId().required()
+            {
+                itemId: Joi.objectId(),
+                quantity: Joi.number().required()
+            }
 
+        ).unique("itemId")
     }).strict()
 }
 
