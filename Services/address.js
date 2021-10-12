@@ -19,7 +19,7 @@ const addressSchema = new Schema({
         },
 
         coordinates: { type: [Number], required: true },
-       
+
     },
     userId: {
         type: Schema.Types.ObjectId,
@@ -49,7 +49,12 @@ module.exports = class AddressService {
 
 
     static async UpdateAddress(addressId, updatedVersion) {
-
+        let addressToInsert = new Address();
+        
+        return await Address.findByIdAndUpdate(addressId, {
+            label: updatedVersion.label, completeAddress: updatedVersion.completeAddress,
+            'location.coordinates': updatedVersion.coordinates
+        }, { new: true });
     }
 
     static async DeleteAddress(addressId) {
