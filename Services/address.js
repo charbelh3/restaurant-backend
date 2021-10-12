@@ -33,7 +33,7 @@ const Address = mongoose.model('Address', addressSchema, 'addresses');
 module.exports = class AddressService {
 
     static async GetAllAddresses(userId) {
-
+        return await Address.find({ userId: userId });
     }
 
     static async CreateAddress(userId, address) {
