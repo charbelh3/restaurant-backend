@@ -48,20 +48,24 @@ module.exports = class BranchService {
     }
 
     //Getting the nearest branch that is within 5km from the client address
-    static async FindBestBranch(coordinates) {
-        let branches = await Branch.find(
-            {
-                location: {
-                    $near: {
-                        $maxDistance: 5000,
-                        $geometry: {
-                            type: "Point",
-                            coordinates: coordinates
-                        }
-                    }
-                }
-            }
-        );
+    static async FindBestBranch(addressCoordinates) {
+
+        console.log(addressCoordinates);
+        // let branches = await Branch.find(
+        //     {
+        //         location: {
+        //             $near: {
+        //                 $geometry: {
+        //                     type: "Point",
+        //                     coordinates: addressCoordinates
+        //                 },
+        //                 $maxDistance: 5000,
+        //             }
+        //         }
+        //     }
+        // );
+
+        let branches = await Branch.find({ location: { $geoWithin: { $centerSphere: [addressCoordinates, 5000 / 6378.1] } } })
         console.log(branches);
 
         if (branches.length > 0) return branches[0];

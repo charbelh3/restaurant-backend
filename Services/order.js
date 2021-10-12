@@ -19,7 +19,6 @@ const orderSchema = new Schema({
     },
     items: [
         {
-
             itemId: {
                 type: Schema.Types.ObjectId,
                 ref: 'Item'
@@ -50,7 +49,7 @@ const Order = mongoose.model('Order', orderSchema, 'orders');
 module.exports = class OrderService {
 
     static async GetUserOrders(userId) {
-
+        return await Order.find({ userId: userId, status: 'Pending' });
     }
 
     static async CreateOrder(order, userId) {
@@ -72,9 +71,6 @@ module.exports = class OrderService {
 
             else return false;
         }
-
-
-
     }
 
     static async FindBestBranchForUserOrder(coordinates) {
@@ -97,11 +93,11 @@ module.exports = class OrderService {
     }
 
     static async AdminRejectOrder(orderId) {
-
+        return await Order.findOneAndDelete({ _id: orderId, status: 'Pending' });
     }
 
     static async AdminAcceptOrder(orderId) {
-
+        return await Order.findOneAndUpdate({ _id: orderId, status: 'Pending' }, { status: 'Accepted' });
     }
 
 

@@ -2,7 +2,9 @@ const createHttpError = require("http-errors");
 const OrderService = require('../Services/order');
 
 module.exports.getUserOrders = async (req, res, next) => {
+    let orders = await OrderService.GetUserOrders(req.userId);
 
+    if (orders) res.send(orders);
 }
 
 module.exports.createOrder = async (req, res, next) => {
