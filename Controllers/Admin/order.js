@@ -19,5 +19,14 @@ module.exports.rejectPendingOrder = async (req, res, next) => {
     }
 
 
-    else return next(createHttpError(500, "Server error"));
+    else return next(createHttpError(400, "Order not found"));
+}
+
+module.exports.acceptPendingOrder = async (req, res, next) => {
+
+    let orderToAccept = await OrderService.AdminAcceptOrder(req.query.id);
+
+    if (orderToAccept) res.send(orderToAccept);
+
+    else return next(createHttpError(500, "Order not found"));
 }

@@ -139,7 +139,7 @@ module.exports = class OrderService {
     }
 
     static async AdminAcceptOrder(orderId) {
-        return await Order.findOneAndUpdate({ _id: orderId, status: 'Pending' }, { status: 'Accepted' });
+        return await Order.findOneAndUpdate({ _id: orderId, status: 'Pending' }, { status: 'Accepted' }, { new: true });
     }
 
 
