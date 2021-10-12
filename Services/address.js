@@ -48,13 +48,21 @@ module.exports = class AddressService {
     }
 
 
-    static async UpdateAddress(addressId, updatedVersion) {
-        let addressToInsert = new Address();
-        
-        return await Address.findByIdAndUpdate(addressId, {
-            label: updatedVersion.label, completeAddress: updatedVersion.completeAddress,
-            'location.coordinates': updatedVersion.coordinates
-        }, { new: true });
+    static async UpdateAddress(addressId, updatedVersion, userId) {
+
+        //make sure the user updating the address owns the address before having the permission to do so
+
+        let isSuccess = await Address.findOne({ _id: addressId, userId: userId });
+
+        if (isSuccess) {
+            return await Address.findByIdAndUpdate(addressId, {
+                label: updatedVersion.label, completeAddress: updatedVersion.completeAddress,
+                'location.coordinates': updatedVersion.coordinates
+            }, { new: true });
+        }
+
+        else return false;
+
     }
 
     static async DeleteAddress(addressId) {
@@ -65,3 +73,4 @@ module.exports = class AddressService {
 
 
 addressSchema.index({ location: '2dsphere' });
+addressSchema.index({ userId: 1 });

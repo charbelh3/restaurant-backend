@@ -23,7 +23,7 @@ module.exports.createAddress = async (req, res, next) => {
 }
 
 module.exports.updateAddress = async (req, res, next) => {
-    const updatedAddress = await AddressService.UpdateAddress(req.query.id, req.body);
+    const updatedAddress = await AddressService.UpdateAddress(req.query.id, req.body, req.userId);
 
     if (updatedAddress) res.send(updatedAddress);
 
