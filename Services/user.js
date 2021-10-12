@@ -81,8 +81,6 @@ module.exports = class UserService {
         else {
             return await User.findByIdAndUpdate(userId, updatedVersion, { new: true });
         }
-
-
     }
 
     static async isEmailValid(email) {
