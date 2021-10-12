@@ -18,7 +18,11 @@ module.exports.createBranch = async (req, res, next) => {
 }
 
 module.exports.updateBranch = async (req, res, next) => {
-    
+    let branchToUpdate = await BranchService.UpdateBranch(req.query.id, req.body);
+
+    if (!branchToUpdate) return next(createHttpError(400, "Branch does not exist"));
+
+    else res.send(branchToUpdate);
 }
 
 module.exports.deleteBranch = async (req, res, next) => {
