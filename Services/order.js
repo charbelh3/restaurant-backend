@@ -67,12 +67,11 @@ module.exports = class OrderService {
             if (bestBranch) {
                 let orderToInsert = new Order()
 
+                orderToInsert.totalPrice = await this.GetTotalPrice(order.items);
                 orderToInsert.userId = userId;
                 orderToInsert.items = order.items;
                 orderToInsert.addressId = order.addressId;
                 orderToInsert.branchId = bestBranch._id;
-                orderToInsert.totalPrice = await this.GetTotalPrice(order.items);
-
                 return await orderToInsert.save();
 
             }
@@ -83,22 +82,26 @@ module.exports = class OrderService {
 
     static async GetTotalPrice(items) {
 
-        let totalPrice = 0;
-        let counter = 0;
-        items.forEach(async element => {
-            counter++;
-            let itemPrice = await ItemService.GetItemPrice(element.itemId);
+        let itemIds = [];
 
-            if (itemPrice)
-                totalPrice += itemPrice * element.quantity;
+        items.forEach(element => {
+            itemIds.push(element.itemId);
+        });
 
-            if (counter == items.length) {
-                console.log(totalPrice);
-                return totalPrice;
-            }
-        })
+        return await ItemService.GetItemsByIds(itemIds).then((orderItems) => {
+            let totalPrice = 0;
+
+            orderItems.forEach((element, index) => {
+                console.log(index);
+                totalPrice += element.price * items[index].quantity;
+            });
+
+            return totalPrice;
+        });
 
     }
+
+
 
     static async FindBestBranchForUserOrder(coordinates) {
         let bestBranch = await BranchService.FindBestBranch(coordinates);

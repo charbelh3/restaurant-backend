@@ -68,10 +68,10 @@ module.exports = class ItemService {
             .skip((pageNumber - 1) * ELEMENTS_PER_PAGE).limit(ELEMENTS_PER_PAGE);
     }
 
-    static async GetItemPrice(itemId) {
-        let item = await Item.findById(itemId);
-
-        return item.price;
+    static async GetItemsByIds(itemIds) {
+        console.log(itemIds);
+        let items = await Item.find({ '_id': { $in: itemIds } });
+        return items;
     }
 }
 //adding an index on the name field.
