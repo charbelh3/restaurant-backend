@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const BranchService = require('../Services/branch');
+const AddressService = require('../Services/address');
 
 
 const orderSchema = new Schema({
@@ -18,16 +19,16 @@ const orderSchema = new Schema({
     },
     items: [
         {
-            item: {
-                itemId: {
-                    type: Schema.Types.ObjectId,
-                    ref: 'Item'
-                },
-                price: {
-                    type: Number,
-                    required: true
-                }
+
+            itemId: {
+                type: Schema.Types.ObjectId,
+                ref: 'Item'
+            },
+            quantity: {
+                type: Number,
+                required: true
             }
+
         }
     ],
     totalPrice: {
@@ -54,12 +55,36 @@ module.exports = class OrderService {
 
     static async CreateOrder(order, userId) {
 
+        let addressCoordinates = await this.GetAddressCoordinates(order.addressId);
+
+
+        if (addressCoordinates) {
+            const bestBranch = await this.FindBestBranchForUserOrder(addressCoordinates);
+
+            if (bestBranch) {
+                let orderToInsert = new Order()
+                orderToInsert.userId = userId;
+                orderToInsert.items = order.items;
+                orderToInsert.addressId = order.addressId;
+                orderToInsert.branchId = bestBranch._id;
+                return await orderToInsert.save();
+            }
+
+            else return false;
+        }
+
+
+
     }
 
     static async FindBestBranchForUserOrder(coordinates) {
         let bestBranch = await BranchService.FindBestBranch(coordinates);
 
         return bestBranch;
+    }
+
+    static async GetAddressCoordinates(addressId) {
+        return await AddressService.GetAddressCoordinates(addressId);
     }
 
 

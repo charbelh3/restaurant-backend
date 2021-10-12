@@ -76,7 +76,10 @@ module.exports = class AddressService {
         else return false;
     }
 
-
+    static async GetAddressCoordinates(addressId) {
+        let address = await Address.findById(addressId);
+        if (address) return address.location.coordinates;
+    }
 
 }
 

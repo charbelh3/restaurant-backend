@@ -47,6 +47,7 @@ module.exports = class BranchService {
         return await Branch.findByIdAndDelete(id);
     }
 
+    //Getting the nearest branch that is within 5km from the client address
     static async FindBestBranch(coordinates) {
         let branches = await Branch.find(
             {
@@ -61,8 +62,9 @@ module.exports = class BranchService {
                 }
             }
         );
+        console.log(branches);
 
-        return branches;
+        if (branches.length > 0) return branches[0];
     }
 
 }
