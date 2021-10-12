@@ -1,12 +1,17 @@
 const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
+
+
 const userRouter = require('./Routes/user');
-const adminCategoryRouter = require('./Routes/Admin/category');
-const adminItemRouter = require('./Routes/Admin/item');
 const categoryItemRouter = require('./Routes/categoryItems');
 const addressRouter = require('./Routes/address');
-const branchRouter = require('./Routes/Admin/branch');
+const orderRouter = require('./Routes/order');
+
+//admin routes
+const adminCategoryRouter = require('./Routes/Admin/category');
+const adminItemRouter = require('./Routes/Admin/item');
+const adminbranchRouter = require('./Routes/Admin/branch');
 
 const authorization = require('./Middlewares/authorization');
 
@@ -21,9 +26,11 @@ app.use(express.json({
 app.use("/user", userRouter);
 app.use("/categoryItem", categoryItemRouter);
 app.use("/address", authorization.isAuthorizedUser, addressRouter);
+app.use("/order", authorization.isAuthorizedUser, orderRouter);
+
 app.use("/admin/category", authorization.isAdmin, adminCategoryRouter);
 app.use("/admin/item", authorization.isAdmin, adminItemRouter);
-app.use("/admin/branch", authorization.isAdmin, branchRouter);
+app.use("/admin/branch", authorization.isAdmin, adminbranchRouter);
 
 app.use(errorHandler);
 

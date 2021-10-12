@@ -19,7 +19,7 @@ const OrderValidation = {
 
 router.get("/getUserOrders", orderController.getUserOrders);
 router.post("/createOrder", validate(OrderValidation), orderController.createOrder)
-router.update("/updateOrder", validate(OrderValidation), orderController.updateOrder)
+router.put("/updateOrder", validate(OrderValidation), orderController.updateOrder)
 router.delete("/cancelOrder", orderController.cancelOrder)
 
 
