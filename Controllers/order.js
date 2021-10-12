@@ -19,6 +19,10 @@ module.exports.updateOrder = async (req, res, next) => {
 }
 
 module.exports.cancelOrder = async (req, res, next) => {
+    let orderToCancel = await OrderService.UserCancelOrder(req.query.id, req.userId);
 
+    if (orderToCancel) res.send(orderToCancel);
+
+    else return next(createHttpError(400, 'Could not find order'));
 }
 

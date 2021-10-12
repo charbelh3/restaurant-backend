@@ -89,7 +89,7 @@ module.exports = class OrderService {
 
 
     static async UserCancelOrder(orderId, userId) {
-
+        return await Order.findOneAndDelete({ _id: orderId, userId: userId, status: 'Pending' });
     }
 
     static async UpdateOrder(orderId, userId, updatedVersion) {
