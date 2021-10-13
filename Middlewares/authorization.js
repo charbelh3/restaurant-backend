@@ -1,12 +1,13 @@
 const createHttpError = require('http-errors');
 const jwt = require('jsonwebtoken');
 const config = require('../configuration/config')
+const UserService = require('../Services/user')
 
 
 //Making sure the token is valid and saving the ID of the user making the request
 
 
-module.exports.isAuthorizedUser = (req, res, next) => {
+module.exports.isAuthorizedUser = async (req, res, next) => {
 
     //Check if the request contains an authorization header
     checkAuth(req);
@@ -20,7 +21,15 @@ module.exports.isAuthorizedUser = (req, res, next) => {
 
     //Saving the sender document ID
     req.userId = decodedToken.userId;
-    next();
+
+    //Check if user is disabled or enabled
+    let status = await checkUserStatus(decodedToken.userId);
+
+    if (status == false) {
+        return next((createHttpError(401, 'Disabled user account')));
+    }
+
+    else if (status == true) next();
 }
 
 
@@ -38,6 +47,7 @@ module.exports.isAdmin = (req, res, next) => {
     }
     //Saving the sender document ID
     req.userId = decodedToken.userId;
+
     next();
 }
 
@@ -57,4 +67,8 @@ function verifyAndGetToken(token) {
         throw (createHttpError(401, 'Missing or Invalid Token.'));
     }
     return decodedToken;
+}
+
+async function checkUserStatus(id) {
+    return await UserService.GetUserStatus(id);
 }

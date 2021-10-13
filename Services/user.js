@@ -96,8 +96,12 @@ module.exports = class UserService {
     }
 
     static async GetUserStatus(userId) {
-        let user = await User.aggregate().match({ _id: userId }).project({ isActive: 1 });
-        if (user) return user.isActive;
+        let user = await User.findById(userId);
+
+        if (user) {
+            console.log(user);
+            return user.isActive;
+        }
     }
 
     static async isEmailValid(email) {
