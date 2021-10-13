@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('../Configuration/config')
+const config = require('../Configuration/config');
 
 
 const userSchema = new Schema({
@@ -22,6 +22,10 @@ const userSchema = new Schema({
     role: {
         type: String,
         default: "User"
+    },
+    isActive: {
+        type: Boolean,
+        default: 1
     }
 
 });

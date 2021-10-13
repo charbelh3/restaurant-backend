@@ -29,7 +29,10 @@ module.exports.deleteItem = async (req, res, next) => {
 }
 
 module.exports.uploadItemImage = async (req, res, next) => {
+    
     if (!req.file) {
-        res.send("NO IMAGE")
+        return next(createHttpError(400, "No image was provided"));
     }
+
+    else res.send(req.file.path)
 }
