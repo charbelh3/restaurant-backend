@@ -7,14 +7,14 @@ module.exports.enableOrDisableUser = async (req, res, next) => {
 
     if (!id) return next(createHttpError(400, "Missing Id query param"))
 
-    if (req.body.isActive == 0) {
+    if (req.body.isActive == false) {
         let isSuccess = await UserService.DisableUser(id);
 
         if (isSuccess) res.send({ "Message": "User Disabled" })
         else return next(createHttpError(400, "User not found"))
     }
 
-    else if (req.body.isActive == 1) {
+    else if (req.body.isActive == true) {
         let isSuccess = await UserService.EnableUser(id);
         if (isSuccess) res.send({ "Message": "User Enabled" })
 

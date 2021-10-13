@@ -24,8 +24,7 @@ module.exports.isAuthorizedUser = async (req, res, next) => {
 
     //Saving the sender document ID
     req.userId = decodedToken.userId;
-    console.log(req.userId);
-
+    
     //Check if user is disabled or enabled
     let status = await checkUserStatus(decodedToken.userId);
 
