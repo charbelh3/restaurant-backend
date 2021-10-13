@@ -54,6 +54,9 @@ const fileFilter = (req, file, cb) => {
 
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));
 
+//Serve the images
+app.use('/images', express.static(path.join(__dirname, 'images')))
+
 app.post('/profile', (req, res, send) => {
     console.log(req.file)
 })
