@@ -165,3 +165,5 @@ module.exports = class OrderService {
     }
 
 }
+
+orderSchema.index({ status: 1 });
