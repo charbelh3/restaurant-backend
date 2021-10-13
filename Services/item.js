@@ -74,7 +74,7 @@ module.exports = class ItemService {
         return items;
     }
 
-    static async AddItemImage(id, imagePath) {
+    static async UploadItemImage(id, imagePath) {
         return await Item.findByIdAndUpdate(id, { image: imagePath });
     }
 }

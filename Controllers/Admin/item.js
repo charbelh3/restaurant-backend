@@ -29,10 +29,17 @@ module.exports.deleteItem = async (req, res, next) => {
 }
 
 module.exports.uploadItemImage = async (req, res, next) => {
-    
-    if (!req.file) {
-        return next(createHttpError(400, "No image was provided"));
-    }
 
-    else res.send(req.file.path)
+    const id = req.query.id;
+    if (!id) return next(createHttpError(400, "Id not found"));
+
+
+    if (!req.file)
+        return next(createHttpError(400, "No image was provided"));
+
+    else {
+        let saveImagePath = await ItemService.UploadItemImage(id, req.file.path);
+        if (saveImagePath) res.send({ "Message": "Successfully uploaded image" });
+
+    }
 }
