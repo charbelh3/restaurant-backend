@@ -12,14 +12,14 @@ module.exports.getAllPendingOrders = async (req, res, next) => {
 
 module.exports.rejectOrAcceptOrder = async (req, res, next) => {
 
-    if (req.body.isAccepted == 1) {
+    if (req.body.isAccepted == true) {
         let orderToAccept = await OrderService.AdminAcceptOrder(req.query.id);
 
         if (orderToAccept) res.send(orderToAccept);
         else return next(createHttpError(400, "Order not found"));
     }
 
-    else if (req.body.isAccepted == 0) {
+    else if (req.body.isAccepted == false) {
         let orderToReject = await OrderService.AdminRejectOrder(req.query.id);
 
         if (orderToReject) res.send(orderToReject)
