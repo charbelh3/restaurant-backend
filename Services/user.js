@@ -87,6 +87,14 @@ module.exports = class UserService {
         }
     }
 
+    static async EnableUser(userId) {
+        return await User.findByIdAndUpdate(userId, { "isActive": 1 });
+    }
+
+    static async DisableUser(userId) {
+        return await User.findByIdAndUpdate(userId, { "isActive": 0 });
+    }
+
     static async isEmailValid(email) {
         const existingUser = await User.findOne({ email: email }).select("+password");
 
