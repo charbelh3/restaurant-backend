@@ -54,7 +54,6 @@ function verifyAndGetToken(token) {
         decodedToken = jwt.verify(token, config.appSecret);
     }
     catch (err) {
-        console.log("Stuck here...")
         throw (createHttpError(401, 'Missing or Invalid Token.'));
     }
     return decodedToken;

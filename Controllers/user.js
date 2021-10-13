@@ -10,7 +10,7 @@ module.exports.signUp = async (req, res, next) => {
         return next(createHttpError(400, "Email already in use."));
     }
 
-    else res.send({ "username": userInfo.email, name: userInfo.fullName });
+    else res.send({ "email": userInfo.email, name: userInfo.fullName });
 }
 
 module.exports.authenticate = async (req, res, next) => {
