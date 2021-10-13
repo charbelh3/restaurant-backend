@@ -95,6 +95,11 @@ module.exports = class UserService {
         return await User.findByIdAndUpdate(userId, { "isActive": 0 });
     }
 
+    static async GetUserStatus(userId) {
+        let user = await User.aggregate().match({ _id: userId }).project({ isActive: 1 });
+        if (user) return user.isActive;
+    }
+
     static async isEmailValid(email) {
         const existingUser = await User.findOne({ email: email }).select("+password");
 
