@@ -34,10 +34,18 @@ module.exports.deleteCategory = async (req, res, next) => {
 }
 
 module.exports.uploadCategoryImage = async (req, res, next) => {
-    
-    if (!req.file) {
-        return next(createHttpError(400, "No image was provided"));
-    }
 
-    else res.send(req.file.path)
+    const id = req.query.id;
+    console.log(id);
+    if (!id) return next(createHttpError(400, "Id not found"));
+
+
+    if (!req.file)
+        return next(createHttpError(400, "No image was provided"));
+
+    else {
+        let saveImagePath = await CategoryService.UploadCategoryImage(id, req.file.path);
+        if (saveImagePath) res.send({"Message":"Successfully uploaded image"});
+
+    }
 }

@@ -10,6 +10,7 @@ const categorySchema = new Schema({
     },
     image: {
         type: String,
+        default: "",
         required: false
     }
 
@@ -43,8 +44,9 @@ module.exports = class CategoryService {
         }
     }
 
-    static async AddCategoryImage(id, imagePath) {
-        return await Category.findByIdAndUpdate(id, { image: imagePath });
+    static async UploadCategoryImage(id, imagePath) {
+       
+        return await Category.updateOne({ _id: id }, { $set: { "image": imagePath } });
     }
 }
 
