@@ -32,3 +32,12 @@ module.exports.deleteCategory = async (req, res, next) => {
 
     res.send(category);
 }
+
+module.exports.uploadCategoryImage = async (req, res, next) => {
+    
+    if (!req.file) {
+        return next(createHttpError(400, "No image was provided"));
+    }
+
+    else res.send(req.file.path)
+}

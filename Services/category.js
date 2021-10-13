@@ -42,6 +42,10 @@ module.exports = class CategoryService {
             return await Category.findByIdAndDelete(id).catch(err => { console.log(err) });;
         }
     }
+
+    static async AddCategoryImage(id, imagePath) {
+        return await Category.findByIdAndUpdate(id, { image: imagePath });
+    }
 }
 
 //adding an index on the name field.

@@ -14,6 +14,7 @@ const categoryValidation = {
 router.post('/createCategory', validate(categoryValidation), categoryController.createCategory);
 router.put('/updateCategory', validate(categoryValidation), categoryController.updateCategory);
 router.delete('/deleteCategory', categoryController.deleteCategory);
+router.post('/uploadCategoryPicture', categoryController.uploadCategoryImage);
 
 
 module.exports = router;

@@ -73,6 +73,10 @@ module.exports = class ItemService {
         let items = await Item.find({ '_id': { $in: itemIds } });
         return items;
     }
+
+    static async AddItemImage(id, imagePath) {
+        return await Item.findByIdAndUpdate(id, { image: imagePath });
+    }
 }
 //adding an index on the name field.
 itemSchema.index({ "name": "text" })

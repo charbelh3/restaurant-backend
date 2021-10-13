@@ -23,28 +23,40 @@ const config = require("./Configuration/config")
 
 
 
-var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'public/uploads/')
-    },
-    filename: function (req, file, cb) {
-        cb(null, file.originalname)
-    }
-});
 
-var upload = multer({ storage: storage })
-
+// app.use(express.static(path.join(__dirname, 'images')));
 
 app.use(express.json({
     extended: true
 }));
 
+const fileStorage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'images');
+    },
 
-app.post('/profile', upload.single('image'), function (req, res, next) {
-    res.send(req.file)
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
 
+const fileFilter = (req, file, cb) => {
+    if (
+        file.mimetype === 'image/png' ||
+        file.mimetype === 'image/jpg' ||
+        file.mimetype === 'image/jpeg'
+    ) {
+        cb(null, true);
+    } else {
+        cb(null, false);
+    }
+};
+
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('image'));
+
+app.post('/profile', (req, res, send) => {
+    console.log(req.file)
 })
-
 
 //Routes
 app.use("/user", userRouter);
@@ -57,6 +69,7 @@ app.use("/admin/item", authorization.isAdmin, adminItemRouter);
 app.use("/admin/branch", authorization.isAdmin, adminbranchRouter);
 app.use("/admin/order", authorization.isAdmin, adminOrderRouter);
 app.use("/admin/user", authorization.isAdmin, adminUserRouter);
+
 
 app.use(errorHandler);
 
