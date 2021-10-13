@@ -152,7 +152,7 @@ module.exports = class OrderService {
 
     static async GetAllPendingOrders(pageNumber) {
         return await Order.aggregate().match({ status: 'Pending' })
-            .lookup({ from: 'items', localField: 'items.itemId', foreignField: '_id', as: 'Items' })
+            .lookup({ from: 'items', localField: 'items.itemId', foreignField: '_id', as: 'itemsDetails' })
             .lookup({ from: 'users', localField: 'userId', foreignField: '_id', as: 'user' }).unwind('user')
             .lookup({ from: 'addresses', localField: 'addressId', foreignField: '_id', as: 'address' }).unwind('address')
             .lookup({ from: 'branches', localField: 'branchId', foreignField: '_id', as: 'branch' }).unwind('branch')

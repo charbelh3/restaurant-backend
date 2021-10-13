@@ -23,7 +23,7 @@ const Branch = mongoose.model('Branch', branchSchema, 'branches');
 
 module.exports = class BranchService {
     static async GetAllBranches() {
-        return await Branch.find();
+        return await Branch.aggregate().project({ "location.type": 0 });
     }
 
 
